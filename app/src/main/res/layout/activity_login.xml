@@ -39,7 +39,7 @@
                 android:layout_height="40dp"
                 android:id="@+id/et_mail"
                 android:background="@color/cardview_light_background"
-                android:hint="Enter Email Address"
+                android:hint="Enter Usename"
                 android:inputType="textEmailAddress"
                 android:layout_marginTop="40dp"
                 app:addTextChangedListener="@{viewModel.emailTextWatcher}"

@@ -7,6 +7,9 @@ import androidx.databinding.Observable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -90,4 +93,5 @@ public class LoginActivity extends AppCompatActivity implements LoginCallBack{
     public void onError(String msg) {
         Toasty.error(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
     }
+
 }
