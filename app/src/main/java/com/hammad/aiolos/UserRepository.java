@@ -21,9 +21,14 @@ public class UserRepository {
     private UserDataBase userDataBase;
 
 
-    public UserRepository(UserDataBase userDataBase){
-            userDAO = userDataBase.getUserDao();
+    public UserRepository(Application application){
+        UserDataBase userDataBase = UserDataBase.getDatabase(application);
+        userDAO = userDataBase.getUserDao();
     }
+
+//    public UserRepository(UserDataBase userDataBase){
+//            userDAO = userDataBase.getUserDao();
+//    }
 
     public User getUser(String email, String password){
 //        userDAO.getUser(email);
