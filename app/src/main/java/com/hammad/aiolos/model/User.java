@@ -83,4 +83,15 @@ public class User extends BaseObservable implements Serializable {
         else
             return -1;
     }
+
+    public int isValidSignup(){
+        if(TextUtils.isEmpty(getTxtEmail()) || TextUtils.isEmpty(getTxtPassword()) || TextUtils.isEmpty(getTxtName()))
+            return 0;
+        else if(!Patterns.EMAIL_ADDRESS.matcher(getTxtEmail()).matches())
+            return 1;
+        else if(getTxtPassword().length() < 5)
+            return 2;
+        else
+            return -1;
+    }
 }

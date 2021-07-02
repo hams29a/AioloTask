@@ -1,21 +1,17 @@
-package com.hammad.aiolos.viewmodel;
+package com.hammad.aiolos.loginviewmodel;
 
 import android.app.Application;
-import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-import com.hammad.aiolos.Interface.LoginCallBack;
-import com.hammad.aiolos.LoginActivity;
-import com.hammad.aiolos.UserRepository;
-import com.hammad.aiolos.data.UserDAO;
-import com.hammad.aiolos.data.UserDataBase;
 import com.hammad.aiolos.model.User;
+import com.hammad.aiolos.repository.UserRepository;
+
+import java.util.concurrent.ExecutionException;
 
 public class LoginViewModel extends AndroidViewModel {
     private User user;
@@ -79,7 +75,7 @@ public class LoginViewModel extends AndroidViewModel {
         else if(eCode == 2)
             loginCallback.setValue("Password length must be greater than 6");
         else {
-            String userName = validateUser(user.getTxtEmail(), user.getTxtPassword());
+            String userName = validateUser(user.getTxtEmail());
             if(!userName.equals("")){
                 loginCallback.setValue("Login Success,"+userName);
             }else{
@@ -87,16 +83,6 @@ public class LoginViewModel extends AndroidViewModel {
             }
         }
 
-//        if(eCode == 0)
-//            loginCallback.setValue("Email address in mandatory");
-//        else if(eCode == 1)
-//            loginCallback.setValue("Invalid Email address");
-//        else if(eCode == 2)
-//            loginCallback.setValue("Password length must be greater than 6");
-//        else if(!validateUser(user.getTxtEmail(), user.getTxtPassword()).equals(""))
-//            loginCallback.setValue("UserName or Password is Wrong");
-//        else
-//            loginCallback.setValue("Login Success");
     }
     public static MutableLiveData<String> loginCallback;
     public static MutableLiveData<String> getMsg() {
@@ -119,58 +105,29 @@ public class LoginViewModel extends AndroidViewModel {
 
     }
 
-//    public void onClick(View view) {
-//
-//        LoginUser loginUser = new LoginUser(EmailAddress.getValue(), Password.getValue());
-//
-//        userMutableLiveData.setValue(loginUser);
-//
-//    }
+public static MutableLiveData<String> signupCallback;
+    public static MutableLiveData<String> callSignup() {
 
+        if (signupCallback == null) {
+            signupCallback = new MutableLiveData<>();
+        }
+        return signupCallback;
+
+    }
     public void SignUp(View view){
-
+        signupCallback.setValue("1");
     }
 
-    public String validateUser(String email, String password){
-        User user = repository.getUser(email, password);
-        if(user.getTxtName().equals(""))
+    public String validateUser(String email){
+        User user = null;
+        try {
+            user = repository.getUser(email);
+            if(user.getTxtName().equals(""))
+                return "";
+            else
+                return user.getTxtName();
+        } catch (Exception e) {
             return "";
-        else
-            return user.getTxtName();
-    }
-
-//    public void onSubmitClicked(View view){
-//        //new
-////        User user = new User(user.getTxtEmail())
-////        User user = new User(EmailAddress.toString(), Password.toString());
-//        userMutableLiveData.setValue(user);
-//
-//
-////        LoginCallBack loginCallBack = new LoginActivity();
-////        int eCode = user.isValid();
-////        if(eCode == 0)
-////            loginCallBack.onError("Email address in mandatory");
-////        else if(eCode == 1)
-////            loginCallBack.onError("Invalid Email address");
-////        else if(eCode == 2)
-////            loginCallBack.onError("Password length must be greater than 6");
-////        else if(!validateUser(user.getTxtEmail(), user.getTxtPassword()))
-////            loginCallBack.onError("UserName or Password is Wrong");
-////        else
-////            loginCallBack.onSucces("Login Success");
-//    }
-
-
-
-
-//    public boolean validateUser(String email, String password){
-//        User user = repository.getUser(email, password);
-//        if(user != null)
-//            return false;
-//        else
-//            return false;
-//    }
-    public void insert(User user){
-        repository.insert(user);
+        }
     }
 }

@@ -1,16 +1,10 @@
-package com.hammad.aiolos.viewmodel;
+package com.hammad.aiolos.loginviewmodel;
 
 import android.app.Application;
-import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-
-import com.hammad.aiolos.Interface.LoginCallBack;
-import com.hammad.aiolos.LoginActivity;
-import com.hammad.aiolos.UserRepository;
 
 public class LoginViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 

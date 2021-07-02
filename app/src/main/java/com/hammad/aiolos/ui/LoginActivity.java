@@ -1,6 +1,5 @@
-package com.hammad.aiolos;
+package com.hammad.aiolos.ui;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
@@ -9,38 +8,24 @@ import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
-import com.hammad.aiolos.Interface.LoginCallBack;
-import com.hammad.aiolos.data.UserDataBase;
+
+import com.hammad.aiolos.R;
 import com.hammad.aiolos.databinding.ActivityLoginBinding;
-import com.hammad.aiolos.model.User;
-import com.hammad.aiolos.viewmodel.LoginViewModel;
-import com.hammad.aiolos.viewmodel.LoginViewModelFactory;
+import com.hammad.aiolos.loginviewmodel.LoginViewModel;
+import com.hammad.aiolos.loginviewmodel.LoginViewModelFactory;
 
 import es.dmoral.toasty.Toasty;
 
 public class LoginActivity extends AppCompatActivity{
 
-//    UserRepository userRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        UserDataBase userDataBase = UserDataBase.getDatabase(getApplication());
-//        userRepository = new UserRepository(userDataBase);
-
 
         ActivityLoginBinding activityLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
 
-//        LoginViewModelFactory loginViewModelFactory = Injection.provieLoginViewModelFactory(context);
         activityLoginBinding.setViewModel(ViewModelProviders.of(this, new LoginViewModelFactory(this.getApplication())).get(LoginViewModel.class));
-
-//        User abc = new User("abc@gmail.com","abc123","abc");
-//        activityLoginBinding.getViewModel().insert(abc);
-
-
-//        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
-//        loginViewModel.insert(abc);
-
 
         LoginViewModel.getMsg().observe(this, new Observer<String>() {
             @Override
@@ -56,6 +41,20 @@ public class LoginActivity extends AppCompatActivity{
                 }
             }
         });
+
+        LoginViewModel.callSignup().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                if(s.equals("1")){
+                    Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
+    }
+}
+
 
 //        LoginViewModel.getUser().observe(this, new Observer<User>() {
 //            @Override
@@ -84,7 +83,7 @@ public class LoginActivity extends AppCompatActivity{
 //                }
 //            }
 //        });
-    }
+
 //    public String validateUser(String email, String password){
 //        User user = userRepository.getUser(email, password);
 //        if(user.getTxtName().equals(""))
@@ -103,4 +102,3 @@ public class LoginActivity extends AppCompatActivity{
 //        Toasty.error(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
 //    }
 
-}
